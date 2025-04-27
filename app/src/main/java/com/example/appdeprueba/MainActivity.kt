@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = "inicio"
                 ) {
                     composable(route = "inicio") {
-                        Greeting(modifier = Modifier, navController)
+                        Greeting(navController, listaDeNotas)
                     }
 
                     composable(route = "ingreso") {
