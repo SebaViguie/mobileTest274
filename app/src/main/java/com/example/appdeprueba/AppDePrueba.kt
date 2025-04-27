@@ -8,10 +8,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,61 +36,39 @@ import androidx.navigation.compose.rememberNavController
 import com.example.appdeprueba.ui.theme.AppDePruebaTheme
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Greeting(modifier : Modifier = Modifier, navController: NavController) {
-
-    var textoPrimerInput by remember { mutableStateOf(value = "") }
-    var textoSegundoInput by remember { mutableStateOf(value = "") }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Gray)
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Hola Laikaa",
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Row(modifier = Modifier.padding(vertical = 10.dp)) {
-            Text(text = "Ingresa tu cuenta")
-            Spacer(modifier = Modifier.weight(1f))
-            Text(text = "Cambiar usuario")
-        }
-
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = textoPrimerInput,
-            label = {Text(text = "Usuario")},
-            onValueChange = {textoInput ->
-                textoPrimerInput = textoInput
+    Scaffold (
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Lista de notas", style = MaterialTheme.typography.headlineLarge) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {navController.navigate(route = "ingreso")},
+                containerColor = MaterialTheme.colorScheme.background
+            )
+            {
+                Icon(Icons.Default.Create,
+                    contentDescription = "Agregar")
             }
-        )
+        },
+        content = {paddingValues ->
+            LazyColumn(modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .background(MaterialTheme.colorScheme.primaryContainer))
+            {
 
-        Spacer(modifier = Modifier.height(40.dp))
-
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = textoSegundoInput,
-            label = { Text(text = "Contraseña") },
-            onValueChange = {textoInput ->
-                textoSegundoInput = textoInput
             }
-        )
-
-        Button(
-            modifier = Modifier.padding(10.dp),
-            onClick = {navController.navigate(route = "ingreso")}
-        ) {
-            Text(text = "Ingresar")
         }
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Text(text = "Olvide mi clave")
-    }
+    )
 }
 
 @Preview(showBackground = true)
